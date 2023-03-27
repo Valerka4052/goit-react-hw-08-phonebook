@@ -3,8 +3,8 @@ import styled from "@emotion/styled";
 export const Container = styled.div`
 position:absolute;
 /* pointer-events: none; */
- width: 50%;
-  height: 50%;
+ width: 20%;
+  height: 20%;
   /* overflow: auto; */
   margin: auto;
   position: absolute;

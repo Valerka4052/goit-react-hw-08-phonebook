@@ -1,7 +1,7 @@
 import * as Yup from 'yup';
 import { Form, Formik, Field, ErrorMessage, Label, Button } from './ContactForm.styled';
 import { useDispatch, useSelector } from "react-redux";
-import { addContact } from "api";
+import { addContact } from "redux/Contacts/api";
 
 
 export function ContactForm() {
@@ -18,7 +18,7 @@ export function ContactForm() {
         } else {
             const contact = {
                 name: inputValues.name,
-                phone: inputValues.number,
+                number: inputValues.number,
             };
             dispatch(addContact(contact));
             inputValues.name = '';
