@@ -15,8 +15,10 @@ export function ContactList () {
 
     return (
         contacts.length > 0 && <List>
-            {filteredContacts.map(({ name, number, id }) => {
+            {filteredContacts.map(({ name, number, id },index) => {
                 return <ContactListItem
+                    index={index}
+                    array={filteredContacts}
                     key={id}
                     name={name}
                     number={number}

@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { signUp, LogIn, LogOut, refreshUser } from 'redux/Sign/operations';
+import { signUp, LogIn, LogOut, refreshUser} from 'redux/Sign/operations';
 
 export const userValidationSlice = createSlice({
     name: 'authorisation',

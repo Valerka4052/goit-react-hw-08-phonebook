@@ -27,7 +27,7 @@ export function App() {
            <Route index element={<Home />} />
             <Route path='/register' element={<RestrictedRoute component={SignUpPage} redirectTo={'/contacts'} />} />
             <Route path='/login' element={<RestrictedRoute component={LoginPage} redirectTo={'/contacts'} />} />
-            <Route path='/contacts' element={<PrivateRoute component={ContactsPage} redirectTo={'/'} />} />
+            <Route path='/contacts' element={<PrivateRoute component={ContactsPage} redirectTo={'/login'} />} />
           </Route>
         </Routes>
       </div>
