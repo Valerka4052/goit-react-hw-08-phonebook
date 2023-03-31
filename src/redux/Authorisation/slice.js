@@ -36,9 +36,9 @@ export const userValidationSlice = createSlice({
                 state.error = action.payload;
             })
             .addCase(LogOut.fulfilled, (state) => {
-                state.user.name = '';
-                state.user.email = '';
-                state.token = '';
+                state.user.name = null;
+                state.user.email = null;
+                state.token = null;
                 state.isRefresh = false;
                 state.isLoggedIn = false;
             })
@@ -50,11 +50,9 @@ export const userValidationSlice = createSlice({
                 state.user.email = action.payload.email;
                 state.isRefresh = false;
                 state.isLoggedIn = true;
-                state.error = null;
             })
             .addCase(refreshUser.rejected, (state, action) => {
                 state.isRefresh = false;
-                state.error = action.payload;
             })
     },
 });

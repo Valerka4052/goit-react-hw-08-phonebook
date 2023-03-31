@@ -66,7 +66,7 @@ export const refreshUser = createAsyncThunk(
             const response = await axios.get('/users/current');
             return response.data;
         } catch (error) {
-            Notiflix.Report.failure(error.message)
+            // Notiflix.Report.failure(error.message)
             thunkAPI.rejectWithValue(error.message);
         };
     },
