@@ -10,7 +10,6 @@ import { TextField } from 'formik-mui';
 export function LoginForm() {
    const dispatch = useDispatch()
     const getLoginIformation = (inputValues) => {
-        console.log(inputValues)
         if (!inputValues.email === '' || !inputValues.password === '') {
             return Notiflix.Report.init('Заполните все поля ввода')
         };
