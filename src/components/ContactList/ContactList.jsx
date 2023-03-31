@@ -15,9 +15,10 @@ export function ContactList () {
     });
 
     return (
+        data.length > 0 &&
         <Box sx={{ width: '50%' }}>
             <Typography variant="h3">Contacts</Typography>
-            {data.length > 0 && <List>
+            <List>
                 {filteredContacts.map(({ name, number, id }, index) => {
                     return <ContactListItem
                         index={index}
@@ -29,7 +30,7 @@ export function ContactList () {
                     />
                 }
                 )}
-            </List>}
+            </List>
         </Box>
     );
 };
