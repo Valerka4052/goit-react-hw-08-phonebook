@@ -65,8 +65,8 @@ export function ContactListItem({ name, number, id, array, index }) {
                                     <Field component={TextField} name="number" variant="standard" disabled={false} />
                                 </Box>
                                 <Box>
-                                    <Button variant="contained" type="submit" sx={{ mr: '10px' }}>Confirm</Button>
-                                    <Button variant="contained" type="button" onClick={() => { setShowForm(false) }} >Cancel</Button>
+                                    <Button variant="contained" color='secondary' type="submit" sx={{ mr: '10px' }}>Confirm</Button>
+                                    <Button variant="contained" color='secondary' type="button" onClick={() => { setShowForm(false) }} >Cancel</Button>
                                 </Box> </Box>
                         </Form>
                     </Formik>
