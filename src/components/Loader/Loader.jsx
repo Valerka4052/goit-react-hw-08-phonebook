@@ -1,13 +1,13 @@
+import { Container } from '@mui/material';
 import { CirclesWithBar } from 'react-loader-spinner';
-import { Container } from './Loader.styled';
 
 export function Loader() {
     return (
-        <Container
+        <Container sx={{p:'40px',opacity:'.6'}}
         ><CirclesWithBar
-                height="100%"
-                width="100%"
-                color="#4fa94d"
+                height="50%"
+                width="50%"
+                color="#11790f"
                 wrapperStyle={{}}
                 wrapperClass=""
                 visible={true}

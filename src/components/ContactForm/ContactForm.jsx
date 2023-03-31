@@ -1,12 +1,14 @@
 import * as Yup from 'yup';
-import { Form, Formik, Field, ErrorMessage, Label, Button } from './ContactForm.styled';
-import { useDispatch, useSelector } from "react-redux";
-import { addContact } from "redux/Contacts/api";
-
+import { useAddContactMutation, useGetContactsQuery } from 'redux/Contacts/api';
+import Notiflix from 'notiflix';
+import Button from '@mui/material/Button';
+import { TextField } from 'formik-mui';
+import { Form, Formik, Field } from 'formik';
+import { Box } from '@mui/material';
 
 export function ContactForm() {
-    const dispatch = useDispatch();
-    const contacts = useSelector(state => state.contacts.items);
+    const { data: contacts } = useGetContactsQuery();
+    const [addContact, { isLoading }] = useAddContactMutation();
 
     const getValues = (inputValues) => {
         if (inputValues.name === '' || inputValues.number === '') {
@@ -14,22 +16,22 @@ export function ContactForm() {
         } else if (contacts.find((contact) => {
             return contact.name === inputValues.name;
         })) {
-            return alert(`${inputValues.name} is already in contacts`);
+            return Notiflix.Report.info(`${inputValues.name} is already in contacts`);
         } else {
             const contact = {
                 name: inputValues.name,
                 number: inputValues.number,
             };
-            dispatch(addContact(contact));
+            addContact(contact);
             inputValues.name = '';
             inputValues.number = '';
-            };
+        };
     };
 
-        const values = {
-            name: '',
-            number: '',
-        };
+    const values = {
+        name: '',
+        number: '',
+    };
         
         const phoneSchema = Yup.number()
             .typeError("That doesn't look like a phone number")
@@ -38,27 +40,33 @@ export function ContactForm() {
             .min(5)
             .required('A phone number is required');
         
-        const validationSchema = Yup.object({
-            name: Yup.string().required(),
-            number: phoneSchema,
-        });
+    const validationSchema = Yup.object({
+        name: Yup.string().required(),
+        number: phoneSchema,
+    });
 
-        const submitForm = (values) => {
-           getValues(values);
-        };
-        
-    
-        return (
-            <Formik
-                initialValues={values}
-                onSubmit={submitForm}
-                validationSchema={validationSchema}
-            >
-                <Form>
-                    <Label>Name<Field name="name" /><ErrorMessage name="name" component="p" /></Label>
-                    <Label>Number<Field name="number" /><ErrorMessage name="number" type="number" component="p" /></Label>
-                    <Button type="submit">add contact</Button>
-                </Form>
-            </Formik>
-        );
-    };
+    return (
+        <Formik initialValues={values} onSubmit={(getValues)} validationSchema={validationSchema}>
+            <Form>
+                <Box
+                    sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'flex-end',
+                        width: '100%',
+                        ml: 'auto',
+                        mr: 'auto',
+                        p: '30px',
+                    }}>
+                <Field component={TextField} name="name" label="name" id="standard-basic" variant="standard" disabled={false }margin="normal"/>
+                    <Field component={TextField} name="number" label="number" id="standard-basic" variant="standard" disabled={false}margin="normal" />
+                      <Box sx={{
+                        ml: 'auto',
+                    }}>
+                <Button variant="contained" color="primary" type="submit" disabled={isLoading}>{isLoading ? 'please wait...' : 'add contact'}</Button>
+                    </Box>
+                </Box>
+            </Form>
+        </Formik>
+    );
+};

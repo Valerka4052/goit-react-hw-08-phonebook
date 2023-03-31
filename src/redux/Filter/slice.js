@@ -7,6 +7,6 @@ export const myFilterSlice = createSlice({
     getFlter(state, action) {
       return state = action.payload;
     },
-  }
+  },
 });
 export const { getFlter } = myFilterSlice.actions;

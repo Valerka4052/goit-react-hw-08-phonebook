@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import Notiflix from "notiflix";
 
 axios.defaults.baseURL = 'https://connections-api.herokuapp.com/';
 
@@ -16,9 +17,10 @@ export const signUp = createAsyncThunk(
     async function (newUser, thunkAPI) {
         try {
             const response = await axios.post(`/users/signup`, newUser);
-            setToken(response.data.token)
-            return response.data
+            setToken(response.data.token);
+            return response.data;
         } catch (error) {
+            Notiflix.Report.failure(error.message);
             thunkAPI.rejectWithValue(error.message);
         };
     },
@@ -29,9 +31,10 @@ export const LogIn = createAsyncThunk(
     async function (user, thunkAPI) {
         try {
             const response = await axios.post(`/users/login`, user);
-            setToken(response.data.token)
-            return response.data
+            setToken(response.data.token);
+            return response.data;
         } catch (error) {
+            Notiflix.Report.failure('wrong email or password!!!');
             thunkAPI.rejectWithValue(error.message);
         };
     },
@@ -45,6 +48,7 @@ export const LogOut = createAsyncThunk(
             clearToken();
             return response.data
         } catch (error) {
+            Notiflix.Report.failure(error.message)
             thunkAPI.rejectWithValue(error.message);
         };
     },
@@ -58,9 +62,9 @@ export const refreshUser = createAsyncThunk(
         setToken(token);
         try {
             const response = await axios.get('/users/current');
-            console.log(response.data)
-            return response.data
+            return response.data;
         } catch (error) {
+            Notiflix.Report.failure(error.message)
             thunkAPI.rejectWithValue(error.message);
         };
     },

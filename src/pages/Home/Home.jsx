@@ -1,3 +1,9 @@
+import { Container, Typography } from "@mui/material";
+
 export function Home() { 
-    return (<h1>Welcome to your Phonebook</h1>)
-}
+    return (
+        <Container sx={{pt:'40px'}}>
+            <Typography variant="h1">Welcome to your Phonebook</Typography>
+        </Container>
+    );
+};

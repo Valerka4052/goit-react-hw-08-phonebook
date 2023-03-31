@@ -1,52 +1,49 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
-// import { useSelector } from "react-redux";
-// axios.defaults.baseURL = 'https://connections-api.herokuapp.com/';
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-export const fetchContacts = createAsyncThunk(
-    'myContacts/fetchContacts',
-    async function (_, thunkAPI) {
-        try {
-            const response = await axios.get(`contacts/`)
-            return response.data
-        } catch (error) {
-            thunkAPI.rejectWithValue(error.message);
-        };
-    },
-);
+export const contactsApi = createApi({
+    reducerPath: 'contacts',
+    baseQuery: fetchBaseQuery({
+        baseUrl: 'https://connections-api.herokuapp.com/', prepareHeaders: (headers, { getState }) => {
+            const token = getState().authorisation.token;
+            if (token) headers.set('authorization', `Bearer ${token}`);            
+            return headers;
+        },
+    }),
+    tagTypes: ['Contacts'],
+    endpoints: (builder) => ({
+        getContacts: builder.query({
+            query: () => `contacts/`,
+            providesTags: (result) => result
+                ? [
+                    ...result.map(({ id }) => ({ type: 'Contacts', id })),
+                    { type: 'Contacts', id: 'LIST' },
+                ]
+                : [{ type: 'Contacts', id: 'LIST' }],
+        }),
+        addContact: builder.mutation({
+            query: (body) => ({
+                url: `contacts`,
+                method: 'POST',
+                body,
+            }),
+            invalidatesTags: (result, error, id) => [{ type: 'Contacts', }],
+        }),
+        deleteContact: builder.mutation({
+            query: (id) => ({
+                url: `contacts/${id}`,
+                method: 'DELETE',
+            }),
+            invalidatesTags: (result, error, id) => [{ type: 'Contacts', id }],
+        }),
+        editContact: builder.mutation({
+            query: ({ id, contact }) => ({
+                url: `contacts/${id}`,
+                method: 'PATCH',
+                body:{...contact},
+            }),
+             invalidatesTags: (result, error, id) => [{ type: 'Contacts', }],
+        }),
+    }),
+});
 
-export const addContact = createAsyncThunk(
-    'myContacts/addContact',
-    async function ({ name, number }, thunkAPI) {
-        try {
-            const response = await axios.post("contacts/", { name, number });
-            return response.data;
-        } catch (error) {
-            thunkAPI.rejectWithValue(error.message);
-        };
-    },
-);
-
-export const removeContact = createAsyncThunk(
-    'myContacts/removeContact',
-    async function (id, thunkAPI) {
-        try {
-            const response = await axios.delete(`contacts/${id}`);
-            return response.data;
-        } catch (error) {
-            thunkAPI.rejectWithValue(error.message);
-        };
-    },
-);
-
-export const editContact = createAsyncThunk(
-    'myContacts/editContact',
-    async function ({id,contact}, thunkAPI) {
-        try {
-            const response = await axios.patch(`contacts/${id}`,contact);
-            return response.data;
-        } catch (error) {
-            thunkAPI.rejectWithValue(error.message);
-        };
-    },
-);
+export const { useGetContactsQuery, useAddContactMutation, useDeleteContactMutation, useEditContactMutation } = contactsApi;

@@ -1,16 +1,30 @@
 import { useDispatch } from 'react-redux';
-import { Container, Label, Input } from './Filter.styled';
 import { getFlter } from 'redux/Filter/slice';
+import { Box, TextField } from '@mui/material';
+
 
 export function Filter() {
     const dispatch = useDispatch()
     return (
-        <Container>
-            <Label >Find contacts by name<Input
-                onChange={(e) => dispatch(getFlter(e.target.value))}
+        <Box
+            sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'flex-end',
+                width: '100%',
+                ml: 'auto',
+                mr: 'auto',
+                p: '30px',
+            }}>
+            <TextField
                 name="filter"
-                type="text" />
-            </Label>
-        </Container>
+                type="text"
+                label="Find contacts by name"
+                id="standard-basic"
+                variant="standard"
+                disabled={false}
+                onChange={(e) => dispatch(getFlter(e.target.value))}
+            />
+        </Box>
     );
 };
