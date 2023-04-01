@@ -14,9 +14,9 @@ function ContactsPage() {
 
   return (
     isLoading ? <Loader /> :
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', p: '40px', }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', alignItems: 'flex-start', p: '40px', }}>
         {error ? <h1>{error.message}</h1> :
-          <Box sx={{ width: '40%' }}>
+          <Box sx={{ width: 'auto' }}>
             <Typography variant="h2">Phonebook</Typography>
             <ContactForm />
             <Filter />

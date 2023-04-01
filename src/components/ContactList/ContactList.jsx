@@ -16,7 +16,7 @@ export function ContactList () {
 
     return (
         data.length > 0 ?
-        <Box sx={{ width: '50%' }}>
+        <Box sx={{ width: 'auto' }}>
             <Typography variant="h3">Contacts [{data.length}]</Typography>
             <List>
                 {filteredContacts.map(({ name, number, id }, index) => {

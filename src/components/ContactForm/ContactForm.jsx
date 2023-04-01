@@ -56,13 +56,11 @@ export function ContactForm() {
                         width: '100%',
                         ml: 'auto',
                         mr: 'auto',
-                        p: '30px',
+                        // p: '30px',
                     }}>
                     <Field component={TextField} name="name" label="name" id="standard-basic" variant="standard" disabled={false} margin="normal" />
                     <Field component={TextField} name="number" label="number" id="standard-basic" variant="standard" disabled={false} margin="normal" />
-                    <Box sx={{
-                        ml: 'auto',
-                    }}>
+                    <Box sx={{ ml: 'auto' }}>
                         <Button variant="contained" color="primary" type="submit" disabled={isLoading}>{isLoading ? 'please wait...' : 'add contact'}</Button>
                     </Box>
                 </Box>

@@ -10,7 +10,7 @@ import { Box, Button, ListItem, Typography } from '@mui/material';
 export function ContactListItem({ name, number, id, array, index }) {
     const [removeContact, { isLoading }] = useDeleteContactMutation();
     const [editContact, { isLoading: load }] = useEditContactMutation();
-    console.log(useEditContactMutation())
+
     const [showForm, setShowForm] = useState(false);
     const values = { name, number, };
         
@@ -54,8 +54,8 @@ export function ContactListItem({ name, number, id, array, index }) {
                             <Typography ><b>{name} : </b> {number}</Typography>
                         </Box>
                         <Box sx={{ ml: 'auto' }}>
-                            <Button variant="contained" onClick={() => { setShowForm(true) }} type='button' sx={{ mr: '10px' }}>Edit</Button>
-                            <Button variant="contained" onClick={() => { removeContact(id) }} type='button'>Delete</Button>
+                            <Button variant="contained" onClick={() => { setShowForm(true) }} type='button' sx={{ ml: '10px' }}>Edit</Button>
+                            <Button variant="contained" onClick={() => { removeContact(id) }} type='button' sx={{ ml: '10px' }}>Delete</Button>
                         </Box>
                     </>) : (
                     <Formik initialValues={values} onSubmit={changeContact} validationSchema={validationSchema} >

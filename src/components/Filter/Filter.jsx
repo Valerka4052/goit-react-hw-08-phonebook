@@ -14,7 +14,6 @@ export function Filter() {
                 width: '100%',
                 ml: 'auto',
                 mr: 'auto',
-                p: '30px',
             }}>
             <TextField
                 name="filter"
