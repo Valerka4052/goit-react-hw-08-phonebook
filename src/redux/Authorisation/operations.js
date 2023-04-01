@@ -64,10 +64,12 @@ export const refreshUser = createAsyncThunk(
         try {
             setToken(token);
             const response = await axios.get('/users/current');
+            console.log(response)
             return response.data;
-        } catch (error) {
-            // Notiflix.Report.failure(error.message)
-            thunkAPI.rejectWithValue(error.message);
+        } catch (response) {
+             console.log(response.data.message)
+            // Notiflix.Report.failure(response.data.message)
+            thunkAPI.rejectWithValue(response.data.message);
         };
     },
 );

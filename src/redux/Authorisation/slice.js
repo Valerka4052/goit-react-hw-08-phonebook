@@ -27,8 +27,10 @@ export const userValidationSlice = createSlice({
             .addCase(LogIn.fulfilled, (state, action) => {
                 state.isRefresh = false;
                 state.isLoggedIn = true;
-                state.user.name = action.payload.user.name;
-                state.user.email = action.payload.user.email;
+                
+                state.user = { ...state.user, ...action.payload.user }
+                // state.user.name = action.payload.user.name;
+                // state.user.email = action.payload.user.email;
                 state.token = action.payload.token;
             })
             .addCase(LogIn.rejected, (state, action) => {
@@ -46,8 +48,11 @@ export const userValidationSlice = createSlice({
                 state.isRefresh = true;
             })
             .addCase(refreshUser.fulfilled, (state, action) => {
-                state.user.name = action.payload.name;
-                state.user.email = action.payload.email;
+                console.log(action)
+                if(!action.payload){return state}
+                state.user = { ...state.user, ...action.payload.user };
+                // state.user.name = action.payload.name;
+                // state.user.email = action.payload.email;
                 state.isRefresh = false;
                 state.isLoggedIn = true;
             })

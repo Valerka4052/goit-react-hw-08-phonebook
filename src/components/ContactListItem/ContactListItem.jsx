@@ -9,7 +9,8 @@ import { Box, Button, ListItem, Typography } from '@mui/material';
 
 export function ContactListItem({ name, number, id, array, index }) {
     const [removeContact, { isLoading }] = useDeleteContactMutation();
-    const [editContact, { isLoading : load }] = useEditContactMutation();
+    const [editContact, { isLoading: load }] = useEditContactMutation();
+    console.log(useEditContactMutation())
     const [showForm, setShowForm] = useState(false);
     const values = { name, number, };
         

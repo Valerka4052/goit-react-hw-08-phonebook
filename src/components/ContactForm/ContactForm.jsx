@@ -58,12 +58,12 @@ export function ContactForm() {
                         mr: 'auto',
                         p: '30px',
                     }}>
-                <Field component={TextField} name="name" label="name" id="standard-basic" variant="standard" disabled={false }margin="normal"/>
-                    <Field component={TextField} name="number" label="number" id="standard-basic" variant="standard" disabled={false}margin="normal" />
-                      <Box sx={{
+                    <Field component={TextField} name="name" label="name" id="standard-basic" variant="standard" disabled={false} margin="normal" />
+                    <Field component={TextField} name="number" label="number" id="standard-basic" variant="standard" disabled={false} margin="normal" />
+                    <Box sx={{
                         ml: 'auto',
                     }}>
-                <Button variant="contained" color="primary" type="submit" disabled={isLoading}>{isLoading ? 'please wait...' : 'add contact'}</Button>
+                        <Button variant="contained" color="primary" type="submit" disabled={isLoading}>{isLoading ? 'please wait...' : 'add contact'}</Button>
                     </Box>
                 </Box>
             </Form>
