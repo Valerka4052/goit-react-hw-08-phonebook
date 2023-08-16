@@ -1,18 +1,18 @@
 import * as Yup from 'yup';
-import { Form, Formik, Field } from 'formik';
+import { Form, Formik, Field, FormikValues } from 'formik';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
-import { useDeleteContactMutation, useEditContactMutation } from 'redux/Contacts/api';
+import { useDeleteContactMutation, useEditContactMutation } from '../../redux/Contacts/api';
 import Notiflix from 'notiflix';
 import { TextField } from 'formik-mui';
 import { Box, Button, ListItem, Typography } from '@mui/material';
+import { ContactCreateType, ContactRequestType } from '../types';
 
-export function ContactListItem({ name, number, id, array, index }) {
+export function ContactListItem({array,index,contactProps }:{array:ContactRequestType[],index:number,contactProps:ContactRequestType}) {
     const [removeContact, { isLoading }] = useDeleteContactMutation();
     const [editContact, { isLoading: load }] = useEditContactMutation();
-
-    const [showForm, setShowForm] = useState(false);
-    const values = { name, number, };
+    const [showForm, setShowForm] = useState<boolean>(false);
+    const values: FormikValues = { name:contactProps.name, number:contactProps.number };
         
         const phoneSchema = Yup.number()
             .typeError("That doesn't look like a phone number")
@@ -26,22 +26,21 @@ export function ContactListItem({ name, number, id, array, index }) {
             number: phoneSchema,
         });
     
-    function changeContact(inputValues){
-       
-            const contact = {
-                name: inputValues.name,
-                number: inputValues.number,
+    function changeContact(inputValues: FormikValues){
+        const contact: ContactCreateType = {
+            name: inputValues.name,
+            number: inputValues.number,
         };
       
         if (array.find(({name}, pos) => name === contact.name && pos !== index)) {
-           Notiflix.Report.info('a contact with that name already exists');
+           Notiflix.Report.info("warning!",'a contact with that name already exists',"ok");
             return
         }
         if (array.find(({ name, number }) => name === contact.name && number === contact.number)) {
-            Notiflix.Report.info('cotact data has not changed');
+            Notiflix.Report.info("warning!",'cotact data has not changed',"ok");
             return
         }
-        editContact({ id, contact });
+        editContact({ id:contactProps.id, contact });
         setShowForm(false)
     };
   
@@ -51,11 +50,11 @@ export function ContactListItem({ name, number, id, array, index }) {
                 (load || isLoading ? <Typography><b>please wait............</b></Typography> :
                     < >
                         <Box>
-                            <Typography ><b>{name} : </b> {number}</Typography>
+                            <Typography ><b>{contactProps.name} : </b> {contactProps.number}</Typography>
                         </Box>
                         <Box sx={{ ml: 'auto' }}>
                             <Button variant="contained" onClick={() => { setShowForm(true) }} type='button' sx={{ ml: '10px' }}>Edit</Button>
-                            <Button variant="contained" onClick={() => { removeContact(id) }} type='button' sx={{ ml: '10px' }}>Delete</Button>
+                            <Button variant="contained" onClick={() => { removeContact(contactProps.id) }} type='button' sx={{ ml: '10px' }}>Delete</Button>
                         </Box>
                     </>) : (
                     <Formik initialValues={values} onSubmit={changeContact} validationSchema={validationSchema} >

@@ -13,6 +13,7 @@ import {
   REGISTER,
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
+import { useDispatch } from 'react-redux';
 
 const persistConfig = {
   key: 'authorisation',
@@ -38,3 +39,6 @@ export const store = configureStore({
 });
 export const persistor = persistStore(store);
 
+export type AppDispatch = typeof store.dispatch
+export const useAppDispatch: () => AppDispatch = useDispatch 
+export type RootState = ReturnType<typeof store.getState>

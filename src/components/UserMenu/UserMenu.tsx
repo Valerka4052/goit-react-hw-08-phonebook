@@ -1,12 +1,13 @@
 import { Button, Container, Typography} from "@mui/material";
 import { Box } from "@mui/system";
-import { CustomNavLink } from "components/MuiCustom.styled";
-import { useDispatch, useSelector } from "react-redux";
-import { LogOut } from "redux/Authorisation/operations";
+import { CustomNavLink } from "../MuiCustom.styled";
+import { useSelector } from "react-redux";
+import { LogOut } from "../../redux/Authorisation/operations";
+import { RootState, useAppDispatch } from "../../redux/store";
 
 export function UserMenu() {
-    const dispatch = useDispatch();
-    const user = useSelector(state => state.authorisation.user.name);
+    const dispatch = useAppDispatch();
+    const user = useSelector((state:RootState) => state.authorisation.user.name);
 
     return (
         <Container sx={{

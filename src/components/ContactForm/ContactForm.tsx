@@ -1,34 +1,36 @@
 import * as Yup from 'yup';
-import { useAddContactMutation, useGetContactsQuery } from 'redux/Contacts/api';
+import { useAddContactMutation, useGetContactsQuery } from '../../redux/Contacts/api';
 import Notiflix from 'notiflix';
 import Button from '@mui/material/Button';
 import { TextField } from 'formik-mui';
-import { Form, Formik, Field } from 'formik';
+import { Form, Formik, Field, FormikValues } from 'formik';
 import { Box } from '@mui/material';
+import { ContactCreateType } from '../types';
 
 export function ContactForm() {
-    const { data: contacts } = useGetContactsQuery();
+    const { data: contacts } = useGetContactsQuery(null);
     const [addContact, { isLoading }] = useAddContactMutation();
 
-    const getValues = (inputValues) => {
-        if (inputValues.name === '' || inputValues.number === '') {
+    const getValues = (values: FormikValues):void => {
+        if(contacts){
+        if (values.name === '' || values.number === '') {
             return;
         } else if (contacts.find((contact) => {
-            return contact.name === inputValues.name;
+            return contact.name === values.name;
         })) {
-            return Notiflix.Report.info(`${inputValues.name} is already in contacts`);
+            return Notiflix.Report.info("Внимание" , `${values.name} is already in contacts`, "ок");
         } else {
-            const contact = {
-                name: inputValues.name,
-                number: inputValues.number,
+            const contact:ContactCreateType = {
+                name: values.name,
+                number: values.number,
             };
             addContact(contact);
-            inputValues.name = '';
-            inputValues.number = '';
-        };
+            values.name = '';
+            values.number = '';
+        };}
     };
 
-    const values = {
+    const values: FormikValues = {
         name: '',
         number: '',
     };

@@ -1,13 +1,14 @@
-import { UserMenu } from "components/UserMenu/UserMenu";
+import { UserMenu } from "../../components/UserMenu/UserMenu";
 import { useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
 import { Suspense } from "react";
 import { AppBar, Container } from "@mui/material";
 import { CustomNavLink } from "../MuiCustom.styled";
 import { green } from "@mui/material/colors";
+import { RootState } from "../../redux/store";
 
 export function SharedLayout() {
-    const { isLoggedIn } = useSelector(state => state.authorisation);
+    const { isLoggedIn } = useSelector((state: RootState) => state.authorisation);
 
     return (
         <>

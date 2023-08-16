@@ -1,17 +1,22 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { signUp, LogIn, LogOut, refreshUser} from 'redux/Authorisation/operations';
+import { signUp, LogIn, LogOut, refreshUser } from './operations';
+import { AuthorisationInitialState } from '../../components/types';
+
+const initialState: AuthorisationInitialState = {
+    user: {
+        name: "",
+        email: "",
+    },
+    token: "",
+    isLoggedIn: false,
+    isRefresh: false,
+    error:""
+};
 
 export const userValidationSlice = createSlice({
     name: 'authorisation',
-    initialState: {
-        user: {
-            name: null,
-            email: null,
-        },
-        token: null,
-        isLoggedIn: false,
-        isRefresh: false,
-    },
+    initialState,
+    reducers: {},
     extraReducers: builder => {
         builder
             .addCase(signUp.pending, (state) => {
@@ -33,12 +38,12 @@ export const userValidationSlice = createSlice({
             })
             .addCase(LogIn.rejected, (state, action) => {
                 state.isRefresh = false;
-                state.error = action.payload;
+                if (typeof action.payload === "string") state.error = action.payload;
             })
             .addCase(LogOut.fulfilled, (state) => {
-                state.user.name = null;
-                state.user.email = null;
-                state.token = null;
+                state.user.name = "";
+                state.user.email = "";
+                state.token = "";
                 state.isRefresh = false;
                 state.isLoggedIn = false;
             })
@@ -54,6 +59,7 @@ export const userValidationSlice = createSlice({
             })
             .addCase(refreshUser.rejected, (state, action) => {
                 state.isRefresh = false;
+                if (typeof action.payload === "string") state.error = action.payload;
             })
     },
 });

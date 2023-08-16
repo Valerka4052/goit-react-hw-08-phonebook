@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { getFlter } from 'redux/Filter/slice';
+import { getFlter } from '../../redux/Filter/slice';
 import { Box, TextField } from '@mui/material';
 
 

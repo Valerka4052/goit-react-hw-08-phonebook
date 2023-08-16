@@ -1,27 +1,29 @@
 import * as Yup from 'yup';
-import { Form, Formik, Field } from 'formik';
-import { LogIn } from 'redux/Authorisation/operations';
-import { useDispatch } from 'react-redux';
+import { Form, Formik, Field, FormikValues } from 'formik';
+import { LogIn } from '../../redux/Authorisation/operations';
 import Notiflix from 'notiflix';
 import { Box, Button } from '@mui/material';
 import { TextField } from 'formik-mui';
+import { useAppDispatch } from '../../redux/store';
+import { LoginUserType } from '../types';
 
 
 export function LoginForm() {
-   const dispatch = useDispatch()
-    const getLoginIformation = (inputValues) => {
-        if (!inputValues.email === '' || !inputValues.password === '') {
-            return Notiflix.Report.init('Заполните все поля ввода')
+    const dispatch = useAppDispatch();
+
+    const getLoginIformation = (values:FormikValues):void => {
+        if (values.email === '' || values.password === '') {
+            return Notiflix.Report.warning("Внимание",'Заполните все поля ввода',"oк")
         };
      
-        const loginUser = {
-            email: inputValues.email,
-            password: inputValues.password
+        const loginUser:LoginUserType = {
+            email: values.email,
+            password: values.password
         };
         dispatch(LogIn(loginUser))
     };
 
-    const values = {
+    const values: FormikValues = {
         email: '',
         password: '',
     };
