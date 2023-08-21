@@ -10,30 +10,18 @@ import { useAppDispatch } from '../../redux/store';
 
 export function SignUpForm() {
     const dispatch = useAppDispatch();
-    const getSbmitInformation = (values:FormikValues) => {
-        if (values.name === '' || values.email === '' || values.password === '') {
-            return Notiflix.Report.failure( "Внимание" ,'Заполните все поля', "ок");
-        };
-        const newUser:SignUpUserType = {
-            name: values.name,
-            email: values.email,
-            password: values.password
-        };
+    const getSbmitInformation = (values: FormikValues): void => {
+        const { name, email, password } = values;
+        if (name === '' || email === '' || password === '') return Notiflix.Report.failure("Внимание", 'Заполните все поля', "ок");
+        const newUser: SignUpUserType = { name, email, password };
         dispatch(signUp(newUser));
     };
-
-    const values: FormikValues = {
-        name: '',
-        email: '',
-        password: '',
-    };
-        
+    const values: FormikValues = { name: '', email: '', password: '', };
     const validationSchema = Yup.object({
         name: Yup.string(),
         email: Yup.string().email(),
         password: Yup.string(),
     });
-    
     return (
         <Formik
             initialValues={values}

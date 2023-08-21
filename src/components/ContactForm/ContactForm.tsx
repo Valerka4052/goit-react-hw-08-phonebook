@@ -11,36 +11,27 @@ export function ContactForm() {
     const { data: contacts } = useGetContactsQuery(null);
     const [addContact, { isLoading }] = useAddContactMutation();
 
-    const getValues = (values: FormikValues):void => {
+    const getValues = (values: FormikValues): void => {
+        const { name, number } = values;
         if(contacts){
-        if (values.name === '' || values.number === '') {
+            if (name === '' || number === '') {
             return;
-        } else if (contacts.find((contact) => {
-            return contact.name === values.name;
-        })) {
-            return Notiflix.Report.info("Внимание" , `${values.name} is already in contacts`, "ок");
+        } else if (contacts.some((contact) => contact.name === name)) {
+            return Notiflix.Report.info("Внимание", `${name} is already in contacts`, "ок");
         } else {
-            const contact:ContactCreateType = {
-                name: values.name,
-                number: values.number,
-            };
+            const contact: ContactCreateType = { name, number };
             addContact(contact);
             values.name = '';
             values.number = '';
         };}
     };
-
-    const values: FormikValues = {
-        name: '',
-        number: '',
-    };
-        
-        const phoneSchema = Yup.number()
-            .typeError("That doesn't look like a phone number")
-            .positive("A phone number can't start with a minus")
-            .integer("A phone number can't include a decimal point")
-            .min(5)
-            .required('A phone number is required');
+    const values: FormikValues = { name: '', number: '', };
+    const phoneSchema = Yup.number()
+        .typeError("That doesn't look like a phone number")
+        .positive("A phone number can't start with a minus")
+        .integer("A phone number can't include a decimal point")
+        .min(5)
+        .required('A phone number is required');
         
     const validationSchema = Yup.object({
         name: Yup.string().required(),

@@ -10,29 +10,17 @@ import { LoginUserType } from '../types';
 
 export function LoginForm() {
     const dispatch = useAppDispatch();
-
-    const getLoginIformation = (values:FormikValues):void => {
-        if (values.email === '' || values.password === '') {
-            return Notiflix.Report.warning("Внимание",'Заполните все поля ввода',"oк")
-        };
-     
-        const loginUser:LoginUserType = {
-            email: values.email,
-            password: values.password
-        };
-        dispatch(LogIn(loginUser))
+    const getLoginIformation = (values: FormikValues): void => {
+        const { email, password } = values;
+        if (email === '' || password === '') return Notiflix.Report.warning("Внимание", 'Заполните все поля ввода', "oк");
+        const loginUser: LoginUserType = { email, password };
+        dispatch(LogIn(loginUser));
     };
-
-    const values: FormikValues = {
-        email: '',
-        password: '',
-    };
-        
+    const values: FormikValues = { email: '', password: '' };
     const validationSchema = Yup.object({
         email: Yup.string().email(),
         password: Yup.string(),
     });
-    
     return (
         <Box sx={{ p: '40px', height: '100%', }}>
             <Formik

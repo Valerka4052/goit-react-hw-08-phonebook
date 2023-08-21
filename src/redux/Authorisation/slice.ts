@@ -10,7 +10,7 @@ const initialState: AuthorisationInitialState = {
     token: "",
     isLoggedIn: false,
     isRefresh: false,
-    error:""
+    error: ""
 };
 
 export const userValidationSlice = createSlice({

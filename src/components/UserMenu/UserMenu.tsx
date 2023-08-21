@@ -7,7 +7,7 @@ import { RootState, useAppDispatch } from "../../redux/store";
 
 export function UserMenu() {
     const dispatch = useAppDispatch();
-    const user = useSelector((state:RootState) => state.authorisation.user.name);
+    const { name } = useSelector((state: RootState) => state.authorisation.user);
 
     return (
         <Container sx={{
@@ -21,7 +21,7 @@ export function UserMenu() {
                 justifyContent: 'space-between',
                 alignItems: 'center',
             }}>
-                <Typography sx={{ mr: '20px' }}>Welcome, {user}</Typography>
+                <Typography sx={{ mr: '20px' }}>Welcome, {name}</Typography>
                 <Button variant="contained" type="button" onClick={() => dispatch(LogOut())}>Logout</Button>
             </Box>
         </Container>

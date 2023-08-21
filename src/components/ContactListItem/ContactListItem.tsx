@@ -8,7 +8,7 @@ import { TextField } from 'formik-mui';
 import { Box, Button, ListItem, Typography } from '@mui/material';
 import { ContactCreateType, ContactRequestType } from '../types';
 
-export function ContactListItem({array,index,contactProps }:{array:ContactRequestType[],index:number,contactProps:ContactRequestType}) {
+export function ContactListItem({ array, index, contactProps }: { array: ContactRequestType[], index: number, contactProps: ContactRequestType }) {
     const [removeContact, { isLoading }] = useDeleteContactMutation();
     const [editContact, { isLoading: load }] = useEditContactMutation();
     const [showForm, setShowForm] = useState<boolean>(false);
@@ -26,26 +26,26 @@ export function ContactListItem({array,index,contactProps }:{array:ContactReques
             number: phoneSchema,
         });
     
-    function changeContact(inputValues: FormikValues){
+    function changeContact(inputValues: FormikValues):void {
         const contact: ContactCreateType = {
             name: inputValues.name,
             number: inputValues.number,
         };
       
-        if (array.find(({name}, pos) => name === contact.name && pos !== index)) {
+        if (array.some(({name}, pos) => name === contact.name && pos !== index)) {
            Notiflix.Report.info("warning!",'a contact with that name already exists',"ok");
             return
         }
-        if (array.find(({ name, number }) => name === contact.name && number === contact.number)) {
+        if (array.some(({ name, number }) => name === contact.name && number === contact.number)) {
             Notiflix.Report.info("warning!",'cotact data has not changed',"ok");
             return
         }
-        editContact({ id:contactProps.id, contact });
-        setShowForm(false)
+        editContact({ id: contactProps.id, contact });
+        setShowForm(false);
     };
   
     return (
-        <ListItem sx={{ display: 'flex', justifyContent: 'space-between', borderBottom:'1px solid black' }}>
+        <ListItem sx={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid black' }}>
             {!showForm ?
                 (load || isLoading ? <Typography><b>please wait............</b></Typography> :
                     < >

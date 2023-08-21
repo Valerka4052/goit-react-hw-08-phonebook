@@ -11,10 +11,7 @@ export function ContactList () {
     const filter = useSelector((state: RootState) => state.filter);
     if (!data) return null;
     const normalizedFilter = filter.trim().toLowerCase();
-    const filteredContacts = data.filter(({ name }) => {
-        return name.toLowerCase().includes(normalizedFilter);
-    });
-
+    const filteredContacts = data.filter(({ name }) => name.toLowerCase().includes(normalizedFilter));
     return (
         data.length > 0 ?
         <Box sx={{ width: 'auto', pt: '40px' }}>

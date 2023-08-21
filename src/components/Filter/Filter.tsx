@@ -4,7 +4,7 @@ import { Box, TextField } from '@mui/material';
 
 
 export function Filter() {
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
     return (
         <Box
             sx={{
